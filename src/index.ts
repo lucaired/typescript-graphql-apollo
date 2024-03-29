@@ -3,6 +3,12 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { readFileSync } from "fs";
 import path from "path";
 import { gql } from "graphql-tag"; // Converts GraphQL strings into format that Apollo can use
+import { setupServer } from "msw/node";
+import { handlers } from "./mocks/handlers";
+
+export const mockSpotifyAPI = setupServer(...handlers);
+
+
 import { resolvers } from "./resolver";
 import { SpotifyAPI } from "./datasources/spotify-api";
 
@@ -33,6 +39,10 @@ async function startApolloServer() {
       🚀  Server is running!
       📭  Query at ${url}
     `);
+}
+
+if (process.env.NODE_ENV === "development") {
+    mockSpotifyAPI.listen();
 }
 
 startApolloServer();
