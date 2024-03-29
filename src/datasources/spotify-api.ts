@@ -7,6 +7,7 @@ export class SpotifyAPI extends RESTDataSource {
     }
 
     getFeaturedPlaylists() {
+        // TODO: add MSW to mock this request
         // this.get("/featured-playlists");
         return [
             {
