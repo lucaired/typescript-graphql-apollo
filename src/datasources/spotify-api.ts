@@ -1,12 +1,8 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
+import { Playlist } from "../types";
 
 export class SpotifyAPI extends RESTDataSource {
-    constructor() {
-        super();
-        this.baseURL = "https://api.spotify.com/v1/";
-    }
-
-    getFeaturedPlaylists() {
+    async getFeaturedPlaylists(): Promise<Playlist[]> {
         // TODO: add MSW to mock this request
         // this.get("/featured-playlists");
         return [
