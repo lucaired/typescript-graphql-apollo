@@ -71,32 +71,32 @@ const resolvers = {
 ```
 
 The resolver functions take four arguments: `parent`, `args`, `context`, and `info`.
-`parent` argument is the result of the previous resolver, or the root value if it is the first resolver. This is useful when the data for a field depends on the data of another field. Consider this example:
+`parent` argument is the result of the previous resolver, or the root value if it is the first resolver. This is useful when the data for a field depends on the data of another field.
+
+Consider the following schema:
+
+````graphql
+type Query {
+  playlist: Playlist
+}
+
+Playlist {
+  id: String
+  name: String
+  songs: [Song]
+}```
+
+and the following `query` operation:
 
 ```graphql
-type Query {
-  id: String
-  user: User
-}
-```
+query GetPlaylist($playlistId: ID!) {
+  playlist(id: $playlistId) {
+    name
+  }
+}```
 
-The `user` field depends on the `id` field. The `id` field is resolved first, and the result is passed to the `user` field resolver as the `parent` argument.
-
-```javascript
-const resolvers = {
-  Query: {
-    id,
-  },
-  User: {
-    user: (parent, args, context, info) => {
-      return {
-        id: parent.id,
-        name: "Alice",
-        age: 30,
-      };
-    },
-  },
-};
-```
+on resolve, this will call the `Query.playlist` resolver, which will return an object with the `id` and `name` fields. The `Playlist.name` field will be resolved by the `Playlist.name` resolver, which will return the value of the `name` field of the object returned by the `Query.playlist` resolver.
 
 The `args` argument is the arguments passed to the field in the query. The `context` argument is an object that is shared between all resolvers. The `info` argument is an object that contains information about the query.
+```
+````
