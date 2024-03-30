@@ -40,9 +40,15 @@ export type Playlist = {
 
 export type Query = {
   __typename?: 'Query';
+  artist?: Maybe<Artist>;
   /** Playlists hand-picked to be featured to all users. */
   featuredPlaylists: Array<Playlist>;
   playlist?: Maybe<Playlist>;
+};
+
+
+export type QueryArtistArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -176,6 +182,7 @@ export type PlaylistResolvers<ContextType = DataSourceContext, ParentType extend
 };
 
 export type QueryResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  artist?: Resolver<Maybe<ResolversTypes['Artist']>, ParentType, ContextType, RequireFields<QueryArtistArgs, 'id'>>;
   featuredPlaylists?: Resolver<Array<ResolversTypes['Playlist']>, ParentType, ContextType>;
   playlist?: Resolver<Maybe<ResolversTypes['Playlist']>, ParentType, ContextType, RequireFields<QueryPlaylistArgs, 'id'>>;
 };

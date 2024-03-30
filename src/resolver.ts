@@ -25,6 +25,9 @@ export const resolvers: Resolvers = {
         playlist: async (_parent: unknown, args: { id: string }, { dataSources }) => {
             return dataSources.spotifyAPI.getPlaylistById(args.id);
         },
+        artist: async (_parent: unknown, args: { id: string }, { dataSources }) => {
+            return dataSources.spotifyAPI.getArtistById(args.id);
+        }
     },
     Artist: {
         streams: async (parent: ArtistDto, _args: unknown, { dataSources }) => {
