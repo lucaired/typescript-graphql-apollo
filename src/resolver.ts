@@ -34,4 +34,28 @@ export const resolvers: Resolvers = {
             return parent.streamingNumbers;
         }
     },
+    Mutation: {
+        addItemsToPlaylist: async (_parent: unknown, input: { playlistId: string, uris: string[] }, { dataSources }) => {
+            try {
+                const response = await dataSources.spotifyAPI.addItemsToPlaylist(input);
+                if (response.snapshot_id) {
+                    return {
+                        code: 200,
+                        success: true,
+                        message: "Tracks added to playlist!",
+                        playlist: null,
+                    };
+                } else {
+                    throw Error("snapshot_id property not found");
+                }
+            } catch (err) {
+                return {
+                    code: 500,
+                    success: false,
+                    message: err.message,
+                    playlist: null,
+                };
+            }
+        }
+    }
 };

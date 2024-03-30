@@ -1,5 +1,5 @@
 import { RESTDataSource } from "@apollo/datasource-rest";
-import { Playlist } from "../types";
+import { AddPlaylistInput, AddPlaylistPayload } from "../types";
 import { ArtistDto, PlaylistDto } from "../models";
 
 export class SpotifyAPI extends RESTDataSource {
@@ -18,5 +18,14 @@ export class SpotifyAPI extends RESTDataSource {
 
     async getArtistById(id: string): Promise<ArtistDto> {
         return this.get(`/artist/${id}`);
+    }
+
+    async addItemsToPlaylist(input: { playlistId: string, uris: string[] }) {
+        const { playlistId, uris } = input;
+        return this.post(`playlists/${playlistId}/tracks`, {
+            params: {
+                uris: uris.join(',')
+            }
+        });
     }
 }
