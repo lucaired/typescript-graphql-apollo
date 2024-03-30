@@ -98,5 +98,10 @@ query GetPlaylist($playlistId: ID!) {
 on resolve, this will call the `Query.playlist` resolver, which will return an object with the `id` and `name` fields. The `Playlist.name` field will be resolved by the `Playlist.name` resolver, which will return the value of the `name` field of the object returned by the `Query.playlist` resolver.
 
 The `args` argument is the arguments passed to the field in the query. The `context` argument is an object that is shared between all resolvers. The `info` argument is an object that contains information about the query.
-```
+
+### Mappers
+Mappers can be used to map the data returned by the resolvers to the shape of the data defined in the schema. Mappers are functions that take the data returned by the resolvers, and return the data in the shape defined in the schema.
+
+# Mock Service Worker
+In development env handlers are inplace to intercept calls to the API. This is done using the `msw` library. The handlers are defined in the `src/mocks/handlers.ts` file. The handlers are then used to create a `server` object that is used to start the mock server. If using the `GitHub Codespaces` ports need to be forwarded and the protocol needs to be set to `https`.
 ````

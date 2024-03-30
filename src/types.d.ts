@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { PlaylistDto, TrackDto, ArtistDto } from './models';
 import { DataSourceContext } from './context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -15,6 +16,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+};
+
+export type Artist = {
+  __typename?: 'Artist';
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  streams: Scalars['Int']['output'];
 };
 
 /** A curated collection of tracks designed for a specific activity or mood. */
@@ -45,6 +53,8 @@ export type QueryPlaylistArgs = {
 /** A single audio file, usually a song. */
 export type Track = {
   __typename?: 'Track';
+  /** The artist who performed the track. */
+  artist: Artist;
   /** The track length in milliseconds. */
   durationMs: Scalars['Int']['output'];
   /** Whether or not the track has explicit lyrics (true = yes it does; false = no it does not OR unknown) */
@@ -128,24 +138,33 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Artist: ResolverTypeWrapper<ArtistDto>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
-  Playlist: ResolverTypeWrapper<Playlist>;
+  Playlist: ResolverTypeWrapper<PlaylistDto>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
-  Track: ResolverTypeWrapper<Track>;
+  Track: ResolverTypeWrapper<TrackDto>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Artist: ArtistDto;
   Boolean: Scalars['Boolean']['output'];
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
-  Playlist: Playlist;
+  Playlist: PlaylistDto;
   Query: {};
   String: Scalars['String']['output'];
-  Track: Track;
+  Track: TrackDto;
+};
+
+export type ArtistResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Artist'] = ResolversParentTypes['Artist']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  streams?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type PlaylistResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']> = {
@@ -162,6 +181,7 @@ export type QueryResolvers<ContextType = DataSourceContext, ParentType extends R
 };
 
 export type TrackResolvers<ContextType = DataSourceContext, ParentType extends ResolversParentTypes['Track'] = ResolversParentTypes['Track']> = {
+  artist?: Resolver<ResolversTypes['Artist'], ParentType, ContextType>;
   durationMs?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   explicit?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -171,6 +191,7 @@ export type TrackResolvers<ContextType = DataSourceContext, ParentType extends R
 };
 
 export type Resolvers<ContextType = DataSourceContext> = {
+  Artist?: ArtistResolvers<ContextType>;
   Playlist?: PlaylistResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Track?: TrackResolvers<ContextType>;

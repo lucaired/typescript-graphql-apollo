@@ -1,4 +1,5 @@
-import { Resolvers } from "./types";
+import { ArtistDto } from "./models";
+import { Artist, Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
     Query: {
@@ -24,5 +25,10 @@ export const resolvers: Resolvers = {
         playlist: async (_parent: unknown, args: { id: string }, { dataSources }) => {
             return dataSources.spotifyAPI.getPlaylistById(args.id);
         },
-    }
+    },
+    Artist: {
+        streams: async (parent: ArtistDto, _args: unknown, { dataSources }) => {
+            return parent.streamingNumbers;
+        }
+    },
 };

@@ -28,4 +28,12 @@ type Track {
   explicit: Boolean!
   "The URI for the track, usually a Spotify link."
   uri: String!
+  "The artist who performed the track."
+  artist: Artist!
+}
+
+type Artist {
+  id: ID!
+  name: String!
+  streams: Int!
 }
