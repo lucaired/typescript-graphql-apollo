@@ -1,5 +1,5 @@
 import { HttpResponse, RequestHandler, http } from 'msw'
-import { ArtistDto, PlaylistDto } from '../models';
+import { ArtistDto, PlaylistDto, UrisDto } from '../models';
 
 const baseURL = 'https://localhost:8080';
 
@@ -90,4 +90,15 @@ export const handlers: RequestHandler[] = [
         const arist = idToArtist.get(id as string);
         return HttpResponse.json(arist);
     }),
+    http.post(baseURL + "/playlists/:playlistId/tracks", async ({ params, request }) => {
+        console.log("MWS: POST /playlists/:playlistId/tracks");
+        const { playlistId } = params;
+        const body = await request.json() as UrisDto;
+        console.log('body %j', body);
+        return HttpResponse.json({
+            snapshot_id: "snapshot_id",
+            playlistId,
+            uris: body.uris,
+        });
+    })
 ];

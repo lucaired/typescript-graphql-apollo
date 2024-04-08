@@ -19,3 +19,10 @@ export type TrackDto = {
     uri: string;
     artist: ArtistDto;
 };
+export type UrisDto = {
+    uris: string;
+};
+export type SnapshotOrError = {
+    snapshot_id?: string;
+    error?: string;
+};

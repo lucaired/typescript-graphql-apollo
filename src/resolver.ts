@@ -35,9 +35,9 @@ export const resolvers: Resolvers = {
         }
     },
     Mutation: {
-        addItemsToPlaylist: async (_parent: unknown, input: { playlistId: string, uris: string[] }, { dataSources }) => {
+        addItemsToPlaylist: async (_, args: { input: { playlistId: string, uris: string[] } }, { dataSources }) => {
             try {
-                const response = await dataSources.spotifyAPI.addItemsToPlaylist(input);
+                const response = await dataSources.spotifyAPI.addItemsToPlaylist(args.input);
                 if (response.snapshot_id) {
                     return {
                         code: 200,
